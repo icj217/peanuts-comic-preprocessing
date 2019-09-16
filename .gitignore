@@ -1,5 +1,9 @@
 # Custom
 local.ini
+files/images/*
+!files/images/.gitkeep
+files/zips/*
+!files/zips/.gitkeep
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
