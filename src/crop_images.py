@@ -6,14 +6,14 @@ import queue
 import time
 import logging
 
-logging.basicConfig(filename="/Users/craigburdulis/Repositories/peanuts/logs/crop.log",level=logging.INFO)
+logging.basicConfig(filename="/Users/craigburdulis/Repositories/peanuts-comic-preprocessing/logs/crop.log",level=logging.INFO)
 
 # Iterate through files
 # Get pixels in the path of each box
 # If black found, skip file
 # else create new files with contents of each box
-raw_image_directory = "/Users/craigburdulis/Repositories/peanuts/downloads/images/raw/"
-cropped_image_directory = "/Users/craigburdulis/Repositories/peanuts/downloads/images/cropped/"
+raw_image_directory = "/Users/craigburdulis/Repositories/peanuts-comic-preprocessing/downloads/images/raw/"
+cropped_image_directory = "/Users/craigburdulis/Repositories/peanuts-comic-preprocessing/downloads/images/cropped/"
 SENTINEL = object()
 
 class Pipeline(queue.Queue):
@@ -54,6 +54,10 @@ if __name__ == "__main__":
     event = threading.Event()
     with concurrent.futures.ThreadPoolExecutor(max_workers=4) as executor:
         executor.submit(producer, pipeline, event)
+        executor.submit(cropper, pipeline, event)
+        executor.submit(cropper, pipeline, event)
+        executor.submit(cropper, pipeline, event)
+        executor.submit(cropper, pipeline, event)
         executor.submit(cropper, pipeline, event)
         executor.submit(cropper, pipeline, event)
         executor.submit(cropper, pipeline, event)
