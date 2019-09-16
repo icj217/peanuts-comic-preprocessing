@@ -1,4 +1,5 @@
 import urllib.request
+from utils.config import get_config
 
 files = ["https://www.zipcomic.com/storage/s4/the-complete-peanuts/tpb-1.zip",
 "https://www.zipcomic.com/storage/s4/the-complete-peanuts/tpb-2.zip",
@@ -29,7 +30,8 @@ files = ["https://www.zipcomic.com/storage/s4/the-complete-peanuts/tpb-1.zip",
 "https://www.zipcomic.com/storage/s4/the-complete-peanuts/tpb-26-part-2.zip",
 "https://www.zipcomic.com/storage/s4/the-complete-peanuts/tpb-26-part-3.zip"]
 
-zip_directory = '../downloads/zip/'
+config = get_config()
+zip_directory = config["directories"]["zipped_images"]
 
 for file in files:
     filename = file.split('/')[-1]

@@ -1,5 +1,6 @@
 import glob
 from utils.crop import crop_and_save_image
+from utils.config import get_config
 import concurrent.futures
 import threading
 import queue
@@ -8,12 +9,9 @@ import logging
 
 logging.basicConfig(filename="/Users/craigburdulis/Repositories/peanuts-comic-preprocessing/logs/crop.log",level=logging.INFO)
 
-# Iterate through files
-# Get pixels in the path of each box
-# If black found, skip file
-# else create new files with contents of each box
-raw_image_directory = "/Users/craigburdulis/Repositories/peanuts-comic-preprocessing/downloads/images/raw/"
-cropped_image_directory = "/Users/craigburdulis/Repositories/peanuts-comic-preprocessing/downloads/images/cropped/"
+config = get_config()
+raw_image_directory = config["directories"]["raw_images"]
+cropped_image_directory = config["directories"]["cropped_images"]
 SENTINEL = object()
 
 class Pipeline(queue.Queue):

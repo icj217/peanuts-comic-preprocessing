@@ -1,8 +1,10 @@
 import glob
 import zipfile
+from utils.config import get_config
 
-zip_directory = 'downloads/zip/*'
-image_directory = 'downloads/images/'
+config = get_config()
+zip_directory = '{}*'.format(config["directories"]["zipped_images"])
+image_directory = config["directories"]["raw_images"]
 
 files = glob.glob(zip_directory)
 print('files:', files)
