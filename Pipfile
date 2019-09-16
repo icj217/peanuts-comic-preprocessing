@@ -1,11 +1,16 @@
 [[source]]
-name = "peanuts-comic-preprocessing"
-url = "https://https://github.com/icj217/peanuts-comic-preprocessing"
+name = "pypi"
+url = "https://pypi.python.org/simple"
 verify_ssl = true
 
 [dev-packages]
+pylint = "*"
 
 [packages]
+pillow = "*"
+confuse = "*"
 
 [requires]
 python_version = "3.7"
+
+[pipenv]
