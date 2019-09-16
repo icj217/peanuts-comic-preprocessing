@@ -1,0 +1,11 @@
+[[source]]
+name = "peanuts-comic-preprocessing"
+url = "https://https://github.com/icj217/peanuts-comic-preprocessing"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+
+[requires]
+python_version = "3.7"
