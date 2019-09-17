@@ -6,8 +6,6 @@ import logging
 class CropError(Exception):
     pass
 
-# TODO: Add in validation to ensure that the border identified falls within certain limits (e.g. that top pixel is in the first 20% of image height)
-
 def crop_and_save_image(file, output_directory=None, topPadding=0, bottomPadding=0, leftPadding=0, rightPadding=0, padding=0, checkForBanner=False):
     try:
         filename = file.split("/")[-1]

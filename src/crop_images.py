@@ -7,11 +7,13 @@ import queue
 import time
 import logging
 
-logging.basicConfig(filename="/Users/craigburdulis/Repositories/peanuts-comic-preprocessing/logs/crop.log",level=logging.INFO)
-
 config = get_config()
+log_directory = config["directories"]["logs"]
 raw_image_directory = config["directories"]["raw_images"]
 cropped_image_directory = config["directories"]["cropped_images"]
+
+logging.basicConfig(filename="{}crop.log".format(log_directory),level=logging.INFO)
+
 SENTINEL = object()
 
 class Pipeline(queue.Queue):
