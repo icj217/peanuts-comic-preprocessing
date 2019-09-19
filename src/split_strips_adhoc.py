@@ -13,7 +13,12 @@ config = get_config()
 
 # Early image (bigger spacing)
 # file = "{}/tpb-1_13.jpg".format(config["directories"]["cropped_images"])
-file = "{}/tpb-9_325.jpg".format(config["directories"]["cropped_images"])
+
+# Later image (less spacing)
+file = "{}/tpb-12_43.jpg".format(config["directories"]["cropped_images"])
+
+# Sunday comic
+# file = "{}/tpb-6_167.jpg".format(config["directories"]["cropped_images"])
 
 
 split_and_save_strips(file, white_threshold=.95)

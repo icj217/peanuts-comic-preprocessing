@@ -30,9 +30,11 @@ def split_and_save_strips(file, pixel_buffer=25, white_threshold=.9, ignore_oute
         logging.debug("Image type: " + image.format + "; mode: " + image.mode + "; dimensions: " + str(image_width) + "x" + str(image_height))
         pixel_map = image.load()
 
+        buffer_indices = []
+        buffers_found = 0
+
         # Go through rows
         rows = []
-        buffers_found = 0
         pixels_to_ignore = int(image_height * ignore_outer_pct)
         for y in range(0 + pixels_to_ignore, image_height - pixels_to_ignore):
           avg_white = get_avg_white(image, pixel_map, y)
@@ -41,10 +43,35 @@ def split_and_save_strips(file, pixel_buffer=25, white_threshold=.9, ignore_oute
           else:
             if len(rows) >= pixel_buffer:
               logging.debug("We've got a winner! Found strip buffer b/t pixels %s and %s", y - len(rows), y)
+              buffer_index = y - (len(rows)/2)
+              buffer_indices.append(buffer_index)
               buffers_found += 1
             rows.clear()
           logging.debug("%s / %s / %s", y, avg_white, str(avg_white > white_threshold))
         logging.debug("Found %s buffers", buffers_found)
+        if output_directory:
+          pass
+        else:
+          logging.debug("Buffer indexes to use: %s",str(buffer_indices))
+          if len(buffer_indices) == 0:
+            if output_directory is None:
+              image.show()
+            else:
+              strip_name = output_directory + filename + '_sunday'
+              image.save(strip_name)
+          else:
+            buffer_indices.append(image_height)
+            for i, y in enumerate(buffer_indices):
+              prev_pixel = buffer_indices[i-1] if i > 0 else 0
+              # (left, upper, right, lower)
+              coords = (0, prev_pixel, image_width, y)
+              logging.debug("Creating strip from %s", str(coords))
+              strip = image.crop(box=coords)
+              if output_directory is None:
+                strip.show()
+              else:
+                strip_name = output_directory + filename + '_weekday_' + i
+                image.save(strip_name)
   except Exception as e:
     logging.error(str(e))
     raise SplitError("Failed to split photo: " + str(e))
