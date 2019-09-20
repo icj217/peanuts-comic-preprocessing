@@ -20,9 +20,10 @@ When we reach X number of consecutive rows above threshold of white (e.g. 90%), 
 X must be greater than the spacing between boxes in the Sunday comics
 
 """
-def split_and_save_strips(file, pixel_buffer=25, white_threshold=.9, ignore_outer_pct=.2, output_directory=None):
+def split_and_save_strips(file, pixel_buffer=25, white_threshold=.95, ignore_outer_pct=.2, output_directory=None):
   try:
-        filename = file.split("/")[-1]
+        filename = file.split("/")[-1].split(".")[0]
+        file_ext = file.split("/")[-1].split(".")[-1]
         logging.debug("Processing %s", filename)
         image = Image.open(file)
         image_width = image.size[0]
@@ -49,29 +50,27 @@ def split_and_save_strips(file, pixel_buffer=25, white_threshold=.9, ignore_oute
             rows.clear()
           logging.debug("%s / %s / %s", y, avg_white, str(avg_white > white_threshold))
         logging.debug("Found %s buffers", buffers_found)
-        if output_directory:
-          pass
-        else:
-          logging.debug("Buffer indexes to use: %s",str(buffer_indices))
-          if len(buffer_indices) == 0:
-            if output_directory is None:
-              image.show()
-            else:
-              strip_name = output_directory + filename + '_sunday'
-              image.save(strip_name)
+        logging.debug("Buffer indexes to use: %s",str(buffer_indices))
+        if len(buffer_indices) == 0:
+          if output_directory is None:
+            image.show()
           else:
-            buffer_indices.append(image_height)
-            for i, y in enumerate(buffer_indices):
-              prev_pixel = buffer_indices[i-1] if i > 0 else 0
-              # (left, upper, right, lower)
-              coords = (0, prev_pixel, image_width, y)
-              logging.debug("Creating strip from %s", str(coords))
-              strip = image.crop(box=coords)
-              if output_directory is None:
-                strip.show()
-              else:
-                strip_name = output_directory + filename + '_weekday_' + i
-                image.save(strip_name)
+            strip_name = output_directory + filename + '_sunday' + '.' + file_ext
+            image.save(strip_name)
+        else:
+          buffer_indices.append(image_height)
+          for i, y in enumerate(buffer_indices):
+            prev_pixel = buffer_indices[i-1] if i > 0 else 0
+            # (left, upper, right, lower)
+            coords = (0, prev_pixel, image_width, y)
+            logging.debug("Creating strip from %s", str(coords))
+            strip = image.crop(box=coords)
+            if output_directory is None:
+              strip.show()
+            else:
+              strip_name = output_directory + filename + '_weekday_' + str(i) + '.' + file_ext
+              logging.debug("Saving strip as %s", strip_name)
+              strip.save(strip_name)
   except Exception as e:
     logging.error(str(e))
     raise SplitError("Failed to split photo: " + str(e))

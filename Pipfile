@@ -11,6 +11,7 @@ rope = "*"
 pillow = "*"
 confuse = "*"
 boto3 = "*"
+progressbar2 = "*"
 
 [requires]
 python_version = "3.7"

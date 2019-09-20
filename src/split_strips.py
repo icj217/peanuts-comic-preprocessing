@@ -6,11 +6,15 @@ import threading
 import queue
 import time
 import logging
+import progressbar
+
+total = 0
+success = 0
 
 config = get_config()
 log_directory = config["directories"]["logs"]
 source_directory = config["directories"]["cropped_images"]
-split_image_directory = config["directories"]["split_images"]
+dest_directory = config["directories"]["split_images"]
 
 logging.basicConfig(filename="{}split.log".format(log_directory),level=logging.INFO)
 
@@ -28,21 +32,27 @@ class Pipeline(queue.Queue):
         self.put(value)
 
 def producer(pipeline, event):
+    global total
     while not event.is_set():
         files = glob.glob(source_directory + "*")
+        total = len(files)
         for file in files:
             filename = file.split("/")[-1]
-            logging.info("Submitting file for splitting: %s", filename)
+            logging.debug("Submitting file for splitting: %s", filename)
             pipeline.set_message(file, "producer")
     logging.info("Producer received EXIT event. Exiting")
 
 def splitter(pipeline, event):
+    global success
+    global total
     message = 0
     while not event.is_set() or not pipeline.empty():
         message = pipeline.get_message("splitter")
-        logging.info("Splitter starting to process file: %s", message)
+        logging.debug("Splitter starting to process file: %s", message)
         try:
-            split_and_save_strips(message, output_directory=split_image_directory)
+            split_and_save_strips(message, white_threshold=.99, pixel_buffer=20, output_directory=dest_directory)
+            success += 1
+            logging.info("# images split: %s / %s", success, total)
         except Exception as e:
             logging.info("Failed to split %s due to error: %s", message, str(e))
 
