@@ -35,6 +35,7 @@ def split_and_save_strips(file, pixel_buffer=25, white_threshold=.95, ignore_out
         buffers_found = 0
 
         # Go through rows
+        # TODO: Add some level of validation to ensure that there's some 100% white rows in the pixel_buffer
         rows = []
         pixels_to_ignore = int(image_height * ignore_outer_pct)
         for y in range(0 + pixels_to_ignore, image_height - pixels_to_ignore):
