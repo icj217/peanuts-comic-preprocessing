@@ -50,7 +50,7 @@ def splitter(pipeline, event):
         message = pipeline.get_message("splitter")
         logging.debug("Splitter starting to process file: %s", message)
         try:
-            split_and_save_strips(message, white_threshold=.99, pixel_buffer=20, output_directory=dest_directory)
+            split_and_save_strips(message, white_threshold=.99, pixel_buffer_size=20, output_directory=dest_directory)
             success += 1
             logging.info("# images split: %s / %s", success, total)
         except Exception as e:

@@ -20,7 +20,7 @@ When we reach X number of consecutive rows above threshold of white (e.g. 90%), 
 X must be greater than the spacing between boxes in the Sunday comics
 
 """
-def split_and_save_strips(file, pixel_buffer=25, white_threshold=.95, ignore_outer_pct=.2, output_directory=None):
+def split_and_save_strips(file, pixel_buffer_size=25, max_buffer_count=None, white_threshold=.95, ignore_outer_pct=.2, output_directory=None):
   try:
         filename = file.split("/")[-1].split(".")[0]
         file_ext = file.split("/")[-1].split(".")[-1]
@@ -43,7 +43,7 @@ def split_and_save_strips(file, pixel_buffer=25, white_threshold=.95, ignore_out
           if avg_white > white_threshold:
             rows.append(avg_white)
           else:
-            if len(rows) >= pixel_buffer:
+            if len(rows) >= pixel_buffer_size:
               logging.debug("We've got a winner! Found strip buffer b/t pixels %s and %s", y - len(rows), y)
               buffer_index = y - (len(rows)/2)
               buffer_indices.append(buffer_index)
