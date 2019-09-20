@@ -43,7 +43,7 @@ def split_and_save_strips(file, pixel_buffer_size=25, max_buffer_count=None, whi
           if avg_white > white_threshold:
             rows.append(avg_white)
           else:
-            if len(rows) >= pixel_buffer_size:
+            if len(rows) >= pixel_buffer_size and rows.count(1.0) > 0:
               logging.debug("We've got a winner! Found strip buffer b/t pixels %s and %s", y - len(rows), y)
               buffer_index = y - (len(rows)/2)
               buffer_indices.append(buffer_index)
