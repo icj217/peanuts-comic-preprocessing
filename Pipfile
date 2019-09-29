@@ -12,6 +12,7 @@ pillow = "*"
 confuse = "*"
 boto3 = "*"
 progressbar2 = "*"
+pytesseract = "*"
 
 [requires]
 python_version = "3.7"

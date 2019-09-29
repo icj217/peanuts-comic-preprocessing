@@ -33,22 +33,14 @@ def put_item(comic_id, book_id, file_name, comic_type):
     logging.error("Failed to put item %s: %s", comic_id, str(e))
 
 def upload_file(file_name, bucket, object_name=None):
-    """Upload a file to an S3 bucket
-
-    :param file_name: File to upload
-    :param bucket: Bucket to upload to
-    :param object_name: S3 object name. If not specified then file_name is used
-    :return: True if file was uploaded, else False
-    """
-
     # If S3 object_name was not specified, use file_name
     if object_name is None:
         object_name = file_name
 
     # Upload the file
     try:
-        response = s3.upload_file(file_name, bucket, object_name)
-    except ClientError as e:
+        s3.upload_file(file_name, bucket, object_name)
+    except Exception as e:
         logging.error(e)
         return False
     return True
@@ -66,4 +58,4 @@ for file in files:
     # Insert item into DDB
     put_item(comic_id, book_id, file_name, comic_type)
     # Upload image to S3 under UUID name
-    upload_file(comic_id, )
+    upload_file(file, s3_bucket, comic_id)
