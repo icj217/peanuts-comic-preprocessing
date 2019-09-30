@@ -4,6 +4,9 @@ files/images/*
 !files/images/.gitkeep
 files/zips/*
 !files/zips/.gitkeep
+settings.json
+*.txt
+*.csv
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
