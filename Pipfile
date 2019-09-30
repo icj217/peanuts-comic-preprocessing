@@ -13,6 +13,7 @@ confuse = "*"
 boto3 = "*"
 progressbar2 = "*"
 pytesseract = "*"
+arrow = "*"
 
 [requires]
 python_version = "3.7"
