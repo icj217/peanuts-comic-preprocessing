@@ -1,4 +1,4 @@
-from utils.s3 import get_client
+from utils.aws import get_client
 from utils.config import get_config
 import zipfile
 import logging
